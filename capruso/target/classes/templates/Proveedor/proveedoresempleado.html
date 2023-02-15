@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lang Muebles</title>
+    <!--Iconos-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <!-- SweertAlert2 -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- CSS only -->
+    <link rel="stylesheet" href="/estilos.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo-details">
+            <div class="logo_name">Lang Muebles</div>
+            <i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="nav-list">
+            <li>
+                <a th:href="@{/dashboardempleado/}">
+                    <i class='bx bx-grid-alt'></i>
+                    <span class="links_name">Dashboard</span>
+                </a>
+                <span class="tooltip">Dashboard</span>
+            </li>
+            <li>
+                <a th:href="@{/proveedoresempleado/}">
+                    <i class='bx bxs-group'></i>
+                    <span class="links_name">Proveedores</span>
+                </a>
+                <span class="tooltip">Proveedores</span>
+            </li>
+            <li>
+                <a th:href="@{/productosempleado/}">
+                    <i class='bx bx-shield-quarter'></i>
+                    <span class="links_name">Productos</span>
+                </a>
+                <span class="tooltip">Productos</span>
+            </li>
+            <li>
+                <a th:href="@{/ingresosempleado/}">
+                    <i class='bx bxs-chevrons-right'></i>
+                    <span class="links_name">Ingreso de productos</span>
+                </a>
+                <span class="tooltip">Ingreso de productos</span>
+            </li>
+            <li>
+                <a th:href="@{/salidasempleado/}">
+                    <i class='bx bxs-chevrons-left'></i>
+                    <span class="links_name">Salida de productos</span>
+                </a>
+                <span class="tooltip">Salida de productos</span>
+            </li>
+            <li>
+                <a th:href="@{/}">
+                    <i class='bx bxs-left-arrow-square'></i>
+                    <span class="links_name">Cerrar sesión</span>
+                </a>
+                <span class="tooltip">Cerrar sesión</span>
+            </li>
+        </ul>
+    </div>
+    <section class="home-section">
+        <div class="container">
+            <div class="row mt-5 mb-2">
+                <div class="col-xl-3 font-text-0">Módulo Proveedores</div>
+                <div class="col-xl-1"></div>
+                <div class="col-xl-1"></div>
+                <div class="col-xl-1"></div>
+                <div class="col-xl-1"></div>
+                <div class="col-md-6 col-xl-2 d-flex mb-2">
+                    <a th:href="@{/proveedores/}" class="btn btn-primary w-100 align-self-center">Mostrar
+                        Todo</a>
+                </div>
+                <div class="col-xl-3">
+                    <form class="d-flex w-100 mb-2" role="search" action="buscar" method="POST">
+                        <input class="form-control me-2" name="dato" type="search" placeholder="Buscar"
+                            aria-label="Buscar">
+                        <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="container w-100">
+                <div class="row mt-5">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead class="table bg-primary text-white">
+                                <tr>
+                                    <th scope="col">Ruc</th>
+                                    <th scope="col">Razón Social</th>
+                                    <th scope="col">Celular</th>
+                                    <th scope="col">Dirección</th>
+                                    <th scope="col">Fecha Registro</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="proveedor: ${listaproveedores}" class="table-white">
+                                    <td th:text="${proveedor.ruc}"></td>
+                                    <td th:text="${proveedor.razon}"></td>
+                                    <td th:text="${proveedor.celular}"></td>
+                                    <td th:text="${proveedor.direccion}"></td>
+                                    <td
+                                        th:text="${#temporals.format(proveedor.fecharegistro, 'dd/MM/yyyy hh:mm:ss a')}">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container pt-2">
+            <nav aria-label="Pagination">
+                <ul class="pagination justify-content-end">
+                    <li class="page-item" th:classappend="${prev == 0 ? 'disabled': ''}">
+                        <a class="page-link" th:href="@{|/proveedoresempleado/?page=${prev}|}">Anterior</a>
+                    </li>
+                    <li class="page-item" th:each="page : ${pages}" th:classappend="${current == page ? 'active': ''}">
+                        <a class="page-link" th:href="@{|/proveedoresempleado/?page=${page}|}" th:text="${page}"></a>
+                    </li>
+                    <li class="page-item" th:classappend="${current == last ? 'disabled': ''}">
+                        <a class="page-link" th:href="@{|/proveedoresempleado/?page=${next}|}">Siguiente</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+    <script>
+        let sidebar = document.querySelector(".sidebar");
+        let closeBtn = document.querySelector("#btn");
+        let searchBtn = document.querySelector(".bx-search");
+        closeBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("open");
+            menuBtnChange();
+        });
+        searchBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("open");
+            menuBtnChange();
+        });
+        function menuBtnChange() {
+            if (sidebar.classList.contains("open")) {
+                closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+            } else {
+                closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+            }
+        }
+    </script>
+</body>
+
+</html>
